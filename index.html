@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>XDsens</title>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    color-scheme: dark;
+  }
+  * {
+    box-sizing: border-box;
+  }
+  body {
+    margin: 0;
+    font-family: 'Space Grotesk', sans-serif;
+    min-height: 100vh;
+    background: linear-gradient(135deg, #3c0f5f, #180828 20%, #40066a 50%, #1280b7 90%);
+    color: #fff;
+    position: relative;
+    overflow-x: hidden;
+  }
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background: radial-gradient(circle at 20% 20%, rgba(255, 106, 234, 0.24), transparent 20%),
+                radial-gradient(circle at 80% 30%, rgba(123, 63, 255, 0.22), transparent 18%),
+                radial-gradient(circle at 50% 80%, rgba(255, 60, 176, 0.18), transparent 28%);
+    filter: blur(45px);
+    pointer-events: none;
+    animation: glow 15s ease-in-out infinite;
+  }
+  @keyframes glow {
+    0%, 100% { transform: translate(0, 0) scale(1); }
+    50% { transform: translate(-6%, 5%) scale(1.08); }
+  }
+  .page {
+    min-height: 100vh;
+    position: relative;
+    z-index: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    padding: 40px 20px 60px;
+  }
+  .section {
+    width: 100%;
+    padding: 0 20px 20px;
+    box-sizing: border-box;
+  }
+  .hero {
+    width: min(620px, 100%);
+    padding: 36px 22px;
+    text-align: center;
+    background: rgba(255, 255, 255, 0.08);
+    border: 1px solid rgba(255,255,255,0.12);
+    border-radius: 32px;
+    backdrop-filter: blur(18px);
+    box-shadow: 0 32px 80px rgba(0,0,0,0.35);
+  }
+  .hero h1 {
+    margin: 0;
+    font-size: clamp(3rem, 5vw, 4.5rem);
+    letter-spacing: 0.04em;
+  }
+  .hero p {
+    margin: 18px auto 0;
+    max-width: 680px;
+    opacity: 0.92;
+    font-size: 1.05rem;
+    line-height: 1.75;
+  }
+  .hero .highlight {
+    margin: 34px auto 0;
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    padding: 16px 24px;
+    border-radius: 999px;
+    background: rgba(255, 255, 255, 0.12);
+    border: 1px solid rgba(255,255,255,0.14);
+    font-weight: 700;
+  }
+  .hero .actions {
+    margin-top: 28px;
+  }
+  .hero .btn {
+    display: inline-block;
+    padding: 14px 34px;
+    background: linear-gradient(135deg, #ee5cd1, #7c4bff);
+    color: #fff;
+    border-radius: 999px;
+    text-decoration: none;
+    font-weight: 700;
+    box-shadow: 0 18px 40px rgba(237, 92, 209, 0.28);
+    transition: transform 0.25s ease, box-shadow 0.25s ease;
+  }
+  .hero .btn:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 22px 52px rgba(237, 92, 209, 0.36);
+  }
+  .section {
+    width: min(800px, 100%);
+    margin-top: 40px;
+    text-align: center;
+    margin-left: auto;
+    margin-right: auto;
+  }
+  .section h2 {
+    margin: 0 auto 24px;
+    font-size: clamp(2rem, 3vw, 2.6rem);
+  }
+  .grid {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    padding-bottom: 12px;
+    margin: 0 auto;
+    max-width: 840px;
+  }
+  .grid::-webkit-scrollbar {
+    height: 10px;
+  }
+  .grid::-webkit-scrollbar-track {
+    background: rgba(255,255,255,0.06);
+    border-radius: 999px;
+  }
+  .grid::-webkit-scrollbar-thumb {
+    background: rgba(255,255,255,0.18);
+    border-radius: 999px;
+  }
+  .card {
+    flex: 0 0 220px;
+    background: rgba(255,255,255,0.08);
+    border: 1px solid rgba(255,255,255,0.15);
+    border-radius: 28px;
+    padding: 16px;
+    box-shadow: 0 24px 64px rgba(0,0,0,0.18);
+    backdrop-filter: blur(16px);
+    position: relative;
+    overflow: hidden;
+  }
+  .card::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(circle at top left, rgba(255,255,255,0.12), transparent 30%);
+    opacity: 0.3;
+    pointer-events: none;
+  }
+  .card.flag {
+    position: relative;
+  }
+  .flag-label {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    padding: 8px 14px;
+    border-radius: 999px;
+    background: rgba(255, 97, 189, 0.16);
+    color: #fff;
+    font-size: 13px;
+    font-weight: 700;
+  }
+  .card strong {
+    display: block;
+    margin-bottom: 10px;
+    font-size: 0.95rem;
+    color: #e3b8ff;
+  }
+  .card h3 {
+    margin: 0 0 10px;
+    font-size: 2rem;
+  }
+  .price {
+    font-size: 2.3rem;
+    margin: 8px 0 10px;
+    color: #ff8ae0;
+    font-weight: 700;
+  }
+  .card p {
+    margin: 10px 0 0;
+    opacity: 0.9;
+    line-height: 1.72;
+  }
+  .card .list {
+    margin: 16px 0 0;
+    padding: 0;
+    list-style: none;
+    text-align: left;
+  }
+  .card .list li {
+    margin: 10px 0 0;
+    font-size: 0.96rem;
+    opacity: 0.82;
+  }
+  .card .link-btn {
+    display: inline-block;
+    margin-top: 20px;
+    padding: 12px 18px;
+    background: linear-gradient(135deg, #ee5cd1, #7c4bff);
+    color: #fff;
+    border-radius: 999px;
+    text-decoration: none;
+    font-weight: 700;
+    transition: transform 0.2s ease;
+  }
+  .card .link-btn:hover {
+    transform: translateY(-2px);
+  }
+  .links-row {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-top: 30px;
+  }
+  .links-row a {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    padding: 12px 18px;
+    border-radius: 999px;
+    background: rgba(255,255,255,0.08);
+    color: #fff;
+    text-decoration: none;
+    font-weight: 700;
+  }
+  .free-pack {
+    display: grid;
+    gap: 18px;
+  }
+  .free-pack .card {
+    padding: 24px;
+  }
+  .free-pack .comment-buttons {
+    display: grid;
+    gap: 10px;
+  }
+  .free-pack button {
+    width: 100%;
+    padding: 12px 16px;
+    border: 0;
+    border-radius: 14px;
+    background: rgba(123,99,255,0.12);
+    color: #fff;
+    cursor: pointer;
+    text-align: left;
+    font-size: 15px;
+    font-weight: 700;
+  }
+  .free-pack .note-block {
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 18px;
+    padding: 18px;
+  }
+  .free-pack .note-block p {
+    margin: 10px 0;
+    opacity: 0.85;
+  }
+  footer {
+    padding: 30px 20px 40px;
+    text-align: center;
+    opacity: 0.55;
+  }
+</style>
+</head>
+<body>
+<div class="page">
+  <section class="hero">
+    <h1>XDsens</h1>
+    <p>доступ к контенту</p>
+    <div class="highlight">📁 1 ТБ реального контента</div>
+    <div class="actions">
+      <a class="btn" href="https://t.me/netzyfire_bot?start=ref5770350069" target="_blank" rel="noopener noreferrer">ПОПАСТЬ В БОТА</a>
+  <section class="section free-pack">
+    <div class="card">
+      <strong>🎁 БЕСПЛАТНЫЙ ПАК</strong>
+      <p>5 ГБ контента за 20 комментариев в TikTok</p>
+      <div class="note-block">
+        <p>🔍 В поиске TikTok наберите <strong>«детское питание»</strong></p>
+        <p>📅 Комментарии оставляйте под видео, которым <strong>не больше 7 дней</strong></p>
+        <p>✏️ Пишите комментарии с упоминанием <strong>XDsens</strong> (Браузер)</p>
+      </div>
+      <strong>📋 ВАРИАНТЫ КОММЕНТАРИЕВ (НАЖМИТЕ ДЛЯ КОПИРОВАНИЯ):</strong>
+      <div class="comment-buttons">
+        <button>XDsens прекрасное ❤️ (Брау3ер)</button>
+        <button>XDsens шикарное ❤️ (Брау3ер)</button>
+        <button>XDsens прелесть ❤️ (Брау3ер)</button>
+        <button>XDsens любимое ❤️ (Брау3ер)</button>
+        <button>XDsens имбуля ❤️ (Брау3ер)</button>
+      </div>
+      <div class="note-block">
+        <p>⚠️ Под одним видео — один комментарий. Чередуйте варианты каждые 3–4 раза.</p>
+        <p><strong>⚠️ ОБЯЗАТЕЛЬНО:</strong> лайкать свои комментарии и комментарии с упоминанием XDsens — иначе пак не будет выдан</p>
+        <p><strong>💬 ТАКЖЕ НУЖНО НАПИСАТЬ:</strong> 10 положительных ответов на комментарии с упоминанием XDsens</p>
+        <p>Примеры ответов: <strong>«согл», «бесспорно», «согласен», «факты», «несомненно», «имба», «лучшее», «легенда», «наилучшее»</strong></p>
+        <p>⚡ На один комментарий можно ответить до 3 раз (но не повторяйте одинаковые ответы)</p>
+      </div>
+      <a class="link-btn" href="#">✈️ Отправить скрины @XDsens_Moder</a>
+      <p style="margin-top:18px; opacity:0.85;">⏱ Выдача в течение 5 минут</p>
+    </div>
+  </section>
+</div>
+<footer>
+  🍼 После оплаты вы автоматически получите доступ к архиву
+</footer>
+</body>
+</html>
